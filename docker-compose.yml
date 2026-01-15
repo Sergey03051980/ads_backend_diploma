@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:15
+    container_name: ads_postgres
+    environment:
+      POSTGRES_DB: ads_db
+      POSTGRES_USER: ads_user
+      POSTGRES_PASSWORD: ads_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"  # Изменили на 5433
+
+  web:
+    build: .
+    container_name: ads_backend
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8000"  # Изменили на 8001
+    depends_on:
+      - db
+    environment:
+      POSTGRES_DB: ads_db
+      POSTGRES_USER: ads_user
+      POSTGRES_PASSWORD: ads_password
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      DEBUG: "True"
+      SECRET_KEY: django-insecure-test-key-for-docker
+      FRONTEND_URL: http://localhost:3000
+      ALLOWED_HOSTS: localhost,127.0.0.1
+
+volumes:
+  postgres_data:

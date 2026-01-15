@@ -1,0 +1,24 @@
+# Игнорируемые файлы для Docker
+.git
+.gitignore
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache
+.coverage
+htmlcov
+*.log
+local_settings.py
+db.sqlite3
+media
+staticfiles
+.DS_Store
+.idea
+.vscode
+*.swp
+*.swo
