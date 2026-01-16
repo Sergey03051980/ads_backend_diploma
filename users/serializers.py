@@ -7,7 +7,7 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'phone', 'email', 'role', 'image')
+        fields = ("id", "first_name", "last_name", "phone", "email", "role", "image")
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'phone', 'email', 'password')
+        fields = ("first_name", "last_name", "phone", "email", "password")
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -25,7 +25,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
+
 class PasswordResetConfirmSerializer(serializers.Serializer):
     uid = serializers.CharField()
     token = serializers.CharField()
-    new_password = serializers.CharField(write_only=True, validators=[validate_password])
+    new_password = serializers.CharField(
+        write_only=True, validators=[validate_password]
+    )

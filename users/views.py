@@ -20,13 +20,15 @@ class PasswordResetView(generics.GenericAPIView):
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        email = serializer.validated_data['email']
+        email = serializer.validated_data["email"]
 
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return Response({"detail": "Если пользователь существует, инструкции отправлены."},
-                            status=status.HTTP_200_OK)
+            return Response(
+                {"detail": "Если пользователь существует, инструкции отправлены."},
+                status=status.HTTP_200_OK,
+            )
 
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -53,21 +55,27 @@ class PasswordResetConfirmView(generics.GenericAPIView):
         data = serializer.validated_data
 
         try:
-            uid = urlsafe_base64_decode(data['uid']).decode()
+            uid = urlsafe_base64_decode(data["uid"]).decode()
             user = User.objects.get(pk=uid)
-        except:
-            return Response({"detail": "Неверная ссылка."}, status=status.HTTP_400_BAD_REQUEST)
+        except BaseException:
+            return Response(
+                {"detail": "Неверная ссылка."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
-        if default_token_generator.check_token(user, data['token']):
-            user.set_password(data['new_password'])
+        if default_token_generator.check_token(user, data["token"]):
+            user.set_password(data["new_password"])
             user.save()
             return Response({"detail": "Пароль успешно изменен."})
-        return Response({"detail": "Токен недействителен."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"detail": "Токен недействителен."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
 
 class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     permission_classes = [AllowAny]
+
 
 class UserRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
