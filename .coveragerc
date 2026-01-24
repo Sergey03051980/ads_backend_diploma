@@ -1,0 +1,37 @@
+[run]
+source = .
+omit = 
+    */tests/*
+    */migrations/*
+    */__pycache__/*
+    */venv/*
+    */.venv/*
+    */htmlcov/*
+    manage.py
+    create_admin.py
+
+[report]
+omit = 
+    */tests/*
+    */migrations/*
+    */__pycache__/*
+    */venv/*
+    */.venv/*
+    */htmlcov/*
+    manage.py
+    create_admin.py
+exclude_lines =
+    pragma: no cover
+    def __str__
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    @property
+ignore_errors = true
+show_missing = true
+skip_covered = false
+
+[html]
+directory = htmlcov
+title = Отчет о покрытии кода

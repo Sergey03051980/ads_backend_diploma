@@ -32,3 +32,10 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Добавим users URLs если их нет
+from django.urls import include
+
+urlpatterns += [
+    path('api/users/', include('users.urls')),
+]

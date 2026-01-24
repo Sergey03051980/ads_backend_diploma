@@ -28,3 +28,56 @@ autopep8 = "^2.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "--reuse-db --cov=. --cov-report=term --cov-report=html"
+testpaths = ["ads", "users"]
+
+filterwarnings = [
+    "ignore::DeprecationWarning",  # Игнорировать deprecation warnings
+    "ignore:Couldn't parse",  # Игнорировать предупреждения от coverage
+]
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/htmlcov/*",
+    "manage.py",
+    "create_admin.py"
+]
+
+[tool.coverage.report]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/htmlcov/*",
+    "manage.py",
+    "create_admin.py"
+]
+exclude_lines = [
+    "pragma: no cover",
+    "def __str__",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "@property"
+]
+ignore_errors = true
+show_missing = true
+skip_covered = false
+
+[tool.coverage.html]
+directory = "htmlcov"
+title = "Отчет о покрытии кода"
+
