@@ -103,11 +103,11 @@ class UsersViewsFinalTests(APITestCase):
         
         # UserCreateView должен поддерживать POST
         create_view = UserCreateView()
-        self.assertIn('POST', create_view.http_method_names)
+        self.assertIn('post', create_view.http_method_names)
         
         # UserRetrieveUpdateView должен поддерживать GET, PUT, PATCH
         retrieve_view = UserRetrieveUpdateView()
-        for method in ['GET', 'PUT', 'PATCH']:
+        for method in ['get', 'put', 'patch']:
             self.assertIn(method, retrieve_view.http_method_names)
         
         print('All HTTP methods are correctly defined')
